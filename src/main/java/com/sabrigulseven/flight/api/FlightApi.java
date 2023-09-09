@@ -39,8 +39,8 @@ public interface FlightApi {
             }
     )
     @PostMapping
-    ResponseEntity<String> createFlight(
-            @Valid @RequestBody CreateFlightRequest createFlightRequest
+    ResponseEntity<FlightDto> createFlight(
+            @Valid @org.springframework.web.bind.annotation.RequestBody CreateFlightRequest createFlightRequest
     );
 
     @Operation(
@@ -68,7 +68,8 @@ public interface FlightApi {
     @Operation(
             description = "Update a flight",
             summary = "Update Flight",
-            requestBody = @RequestBody(description = "The updated flight information.", required = true, content = @Content(mediaType = "application/json")),
+            requestBody = @RequestBody(description = "The updated flight information.", required = true,
+                    content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -87,10 +88,10 @@ public interface FlightApi {
             }
     )
     @PutMapping("/{id}")
-    ResponseEntity<String> updateFlight(
+    ResponseEntity<FlightDto> updateFlight(
             @Parameter(description = "The ID of the flight to update.", required = true)
             @PathVariable Long id,
-            @Valid @RequestBody UpdateFlightRequest updateFlightRequest
+            @Valid @org.springframework.web.bind.annotation.RequestBody UpdateFlightRequest updateFlightRequest
     );
 
     @Operation(
@@ -109,7 +110,7 @@ public interface FlightApi {
             }
     )
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteFlightById(
+    ResponseEntity<String> deleteFlightById(
             @Parameter(description = "The ID of the flight to delete.", required = true)
             @PathVariable Long id
     );

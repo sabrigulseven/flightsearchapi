@@ -38,7 +38,7 @@ public interface AirportApi {
             }
     )
     @PostMapping
-    ResponseEntity<String> createAirport(
+    ResponseEntity<AirportDto> createAirport(
             @Valid @RequestBody CreateAirportRequest createAirportRequest
     );
 
@@ -88,7 +88,7 @@ public interface AirportApi {
             }
     )
     @PutMapping("/{id}")
-    ResponseEntity<String> updateAirport(
+    ResponseEntity<AirportDto> updateAirport(
             @Parameter(description = "The ID of the airport to update.", required = true)
             @PathVariable Long id,
             @Valid @RequestBody UpdateAirportRequest updateAirportRequest
@@ -111,7 +111,7 @@ public interface AirportApi {
             }
     )
     @DeleteMapping("/{id}")
-    ResponseEntity<Void> deleteAirportById(
+    ResponseEntity<String> deleteAirportById(
             @Parameter(description = "The ID of the airport to delete.", required = true)
             @PathVariable Long id
     );
