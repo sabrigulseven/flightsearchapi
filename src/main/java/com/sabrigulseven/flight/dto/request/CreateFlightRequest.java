@@ -27,12 +27,14 @@ public class CreateFlightRequest {
     private Long destinationAirportId;
 
     @FutureOrPresent(message = "Departure date must be in the future or present")
+    @NotNull
     private OffsetDateTime departureDate;
 
     @FutureOrPresent(message = "Return date must be in the future or present")
     private OffsetDateTime returnDate;
 
     @DecimalMin(value = "0.01", message = "Price must be greater than or equal to 0.01")
+    @NotNull
     private BigDecimal price;
 
 }
