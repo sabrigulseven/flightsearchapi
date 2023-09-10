@@ -16,35 +16,31 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/airports")
 @RequiredArgsConstructor
+@RateLimiter(name = "basic")
 public class AirportController implements AirportApi {
     private final AirportService airportService;
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<AirportDto> createAirport(CreateAirportRequest createAirportRequest) {
         return ResponseEntity.ok(airportService.save(createAirportRequest));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<AirportDto> getAirportById(Long id) {
         return ResponseEntity.ok(airportService.getById(id));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<AirportDto> updateAirport(Long id, UpdateAirportRequest updateAirportRequest) {
         return ResponseEntity.ok(airportService.update(id, updateAirportRequest));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<String> deleteAirportById(Long id) {
         return ResponseEntity.ok(airportService.deleteById(id));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<List<AirportDto>> getAllAirports() {
         return ResponseEntity.ok(airportService.getAllAirports());
     }

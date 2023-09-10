@@ -18,43 +18,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/flights")
 @RequiredArgsConstructor
+@RateLimiter(name = "basic")
 public class FlightController implements FlightApi {
 
     private final FlightService flightService;
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<FlightDto> createFlight(CreateFlightRequest createFlightRequest) {
         return ResponseEntity.ok(flightService.save(createFlightRequest));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<FlightDto> getFlightById(Long id) {
         return ResponseEntity.ok(flightService.getById(id));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<FlightDto> updateFlight(Long id, UpdateFlightRequest updateFlightRequest) {
         return ResponseEntity.ok(flightService.update(id, updateFlightRequest));
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<String> deleteFlightById(Long id) {
         return ResponseEntity.ok(flightService.deleteById(id));
 
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<List<FlightDto>> getAllFlights() {
         return ResponseEntity.ok(flightService.getAll());
     }
 
     @Override
-    @RateLimiter(name = "basic")
     public ResponseEntity<List<FlightDto>> searchFlights(
             Long originAirportId,
             Long destinationAirportId,
