@@ -8,15 +8,28 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class FlightDtoConverter {
-    private final FligtAirportDtoConverter fligtAirportDtoConverter;
+    private final FlightAirportDtoConverter flightAirportDtoConverter;
 
     public FlightDto convert(Flight from) {
         return new FlightDto(
                 from.getId(),
-                fligtAirportDtoConverter.convert(from.getOrigin()),
-                fligtAirportDtoConverter.convert(from.getDestination()),
+                flightAirportDtoConverter.convert(from.getOrigin()),
+                flightAirportDtoConverter.convert(from.getDestination()),
                 from.getDepartureDate(),
                 from.getReturnDate(),
-                from.getPrice());
+                from.getPrice()
+        );
+    }
+
+    public Flight revert(FlightDto from) {
+        return new Flight(
+                from.getId(),
+                flightAirportDtoConverter.revert(from.getOrigin()),
+                flightAirportDtoConverter.revert(from.getDestination()),
+                from.getDepartureDate(),
+                from.getReturnDate(),
+                from.getPrice()
+        );
+
     }
 }

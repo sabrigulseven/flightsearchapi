@@ -5,8 +5,12 @@ import com.sabrigulseven.flight.model.Airport;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FligtAirportDtoConverter {
+public class FlightAirportDtoConverter {
     public FlightAirportDto convert(Airport from) {
         return new FlightAirportDto(from.getId(),from.getCity());
+    }
+
+    public Airport revert(FlightAirportDto from) {
+        return new Airport(from.getId(), from.getCity());
     }
 }
