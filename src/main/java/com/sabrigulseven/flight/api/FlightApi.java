@@ -18,8 +18,6 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Tag(name = "Flight")
@@ -140,13 +138,11 @@ public interface FlightApi {
                     @Parameter(
                             name = "originAirportId",
                             description = "The ID of the origin airport",
-                            required = true,
                             example = "1"
                     ),
                     @Parameter(
                             name = "destinationAirportId",
                             description = "The ID of the destination airport",
-                            required = true,
                             example = "2"
                     ),
                     @Parameter(
@@ -170,8 +166,8 @@ public interface FlightApi {
     )
     @GetMapping("/search")
     ResponseEntity<List<FlightDto>> searchFlights(
-            @RequestParam Long originAirportId,
-            @RequestParam Long destinationAirportId,
+            @RequestParam(required = false) Long originAirportId,
+            @RequestParam(required = false) Long destinationAirportId,
             @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
             @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate
     );
