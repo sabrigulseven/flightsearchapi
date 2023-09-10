@@ -1,25 +1,19 @@
 package com.sabrigulseven.flight.exception;
 
 import com.sabrigulseven.flight.dto.response.ErrorResponse;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.core.convert.ConversionFailedException;
-import org.springframework.http.HttpHeaders;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class GlobalControllerExceptionHandler {
+public class GeneralExceptionAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
@@ -49,5 +43,11 @@ public class GlobalControllerExceptionHandler {
     public ResponseEntity<ErrorResponse> handleFlightNotFound(FlightNotFoundException ex) {
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND,ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RequestNotPermitted.class)
+    public ResponseEntity<ErrorResponse> handleTooManyRequests(RequestNotPermitted exception) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.TOO_MANY_REQUESTS,"Rate limit exceeded. Please try your request again later!");
+        return new ResponseEntity<>(errorResponse, HttpStatus.TOO_MANY_REQUESTS);
     }
 }

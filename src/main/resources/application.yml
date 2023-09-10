@@ -14,3 +14,15 @@ spring:
 
 flight-api:
   api-url: http://localhost:8080/api/v1
+
+resilience4j:
+  ratelimiter:
+    instances:
+      basic:
+        limit-for-period: 10
+        limit-refresh-period: 1m
+        timeout-duration: 10s
+      auth:
+        limit-for-period: 3
+        limit-refresh-period: 5m
+        timeout-duration: 10s

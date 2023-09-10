@@ -6,6 +6,7 @@ import com.sabrigulseven.flight.dto.request.AuthenticationRequest;
 import com.sabrigulseven.flight.dto.request.RegisterRequest;
 import com.sabrigulseven.flight.dto.response.AuthenticationResponse;
 import com.sabrigulseven.flight.service.AuthenticationService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,6 +29,7 @@ public class AuthenticationController implements AuthenticationApi {
     private final AuthenticationService service;
 
     @PostMapping("/register")
+    @RateLimiter(name = "basic")
     public ResponseEntity<AuthenticationResponse> register (
             @Valid @RequestBody RegisterRequest request
     ) {
@@ -35,6 +37,7 @@ public class AuthenticationController implements AuthenticationApi {
     }
 
     @PostMapping("/authenticate")
+    @RateLimiter(name = "auth")
     public ResponseEntity<AuthenticationResponse> authenticate (
             @RequestBody AuthenticationRequest request
     ) {
