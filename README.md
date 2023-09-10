@@ -9,17 +9,18 @@
 
 
 ### How does the application works?
-* Application receives the requested via `/v1/api/flights/search` url with all optional `{originAirportId}`,`{destinationAirportId}`,`{departureDate}`,`{returnDate}` request parameters
+* Application receives the requested via `/v1/api/flights/search` url with all optional `originAirportId`,`destinationAirportId`,`departureDate`,`returnDate` request parameters
 * There is a validation for date parameters.
   * If the date parameters is not valid, api returns `400 - Http Bad Request` response
-* There is a Criteria Specification when search with all optional search parameters.
+* There is a `Criteria Specification` when search with all optional search parameters.
   * If all parameters is empty, gets all Flights from db.
   * Otherwise a Criteria will be builded for given parameters.
-* Existing airports are cached and brought from the cache when needed.
+* Existing airports are `cached` and brought from the cache when needed.
 * There is scheduled jobs at midnight:
   * A request is made to another API to retrieve the new day's flight information and save it to the db.
   * All cache evicted.
-
+* A `RateLimiter` implemented with `resilience4j`
+  
 On the swagger page you can find the relevant api endpoint. 
 You can reach the openapi page by `http://localhost:8080/swagger-ui/index.html` url.
 
