@@ -12,8 +12,8 @@
 * Application receives the requested via `/v1/api/flights/search` url with all optional `{originAirportId}`,`{destinationAirportId}`,`{departureDate}`,`{returnDate}` request parameters
 * There is a validation for date parameters.
   * If the date parameters is not valid, api returns `400 - Http Bad Request` response
-* There is a Criteria Specification when search wit all optional search parameters.
-  * If all parameters is emty, gets all Flights from db.
+* There is a Criteria Specification when search with all optional search parameters.
+  * If all parameters is empty, gets all Flights from db.
   * Otherwise a Criteria will be builded for given parameters.
 * Existing airports are cached and brought from the cache when needed.
 * There is scheduled jobs at midnight:
