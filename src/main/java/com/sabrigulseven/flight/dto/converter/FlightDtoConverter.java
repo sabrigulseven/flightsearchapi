@@ -2,13 +2,15 @@ package com.sabrigulseven.flight.dto.converter;
 
 import com.sabrigulseven.flight.dto.FlightDto;
 import com.sabrigulseven.flight.model.Flight;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class FlightDtoConverter {
     private final FlightAirportDtoConverter flightAirportDtoConverter;
+
+    public FlightDtoConverter(FlightAirportDtoConverter flightAirportDtoConverter) {
+        this.flightAirportDtoConverter = flightAirportDtoConverter;
+    }
 
     public FlightDto convert(Flight from) {
         return new FlightDto(

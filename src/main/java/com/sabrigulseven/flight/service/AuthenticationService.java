@@ -7,17 +7,13 @@ import com.sabrigulseven.flight.dto.request.RegisterRequest;
 import com.sabrigulseven.flight.dto.response.AuthenticationResponse;
 import com.sabrigulseven.flight.exception.UserNotFoundException;
 import com.sabrigulseven.flight.model.User;
-import com.sabrigulseven.flight.model.UserRole;
 import com.sabrigulseven.flight.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository repository;
@@ -25,14 +21,24 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+    public AuthenticationService(UserRepository repository,
+                                 PasswordEncoder passwordEncoder,
+                                 JwtService jwtService,
+                                 AuthenticationManager authenticationManager) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+    }
+
     public AuthenticationResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .name(request.getName())
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .userRole(request.getRole())
-                .build();
+        User user = new User(
+                request.getName(),
+                request.getUsername(),
+                request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getRole());
+
         System.out.println(user);
         repository.save(user);
         String jwtToken = jwtService.generateToken(user);

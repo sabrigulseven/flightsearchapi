@@ -1,13 +1,19 @@
 package com.sabrigulseven.flight.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class AirportDto {
     private Long id;
     private String city;
+
+    public AirportDto(Long id, String city) {
+        this.id = id;
+        this.city = city;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCity() {
+        return city;
+    }
 }

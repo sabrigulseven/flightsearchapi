@@ -1,15 +1,8 @@
 package com.sabrigulseven.flight.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class SearchFlightRequest {
     private Long originAirportId;
 
@@ -18,4 +11,27 @@ public class SearchFlightRequest {
     private LocalDate departureDate;
 
     private LocalDate returnDate;
+
+    public SearchFlightRequest(Long originAirportId, Long destinationAirportId, LocalDate departureDate, LocalDate returnDate) {
+        this.originAirportId = originAirportId;
+        this.destinationAirportId = destinationAirportId;
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
+    }
+
+    public Long getOriginAirportId() {
+        return originAirportId;
+    }
+
+    public Long getDestinationAirportId() {
+        return destinationAirportId;
+    }
+
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
 }

@@ -2,7 +2,6 @@ package com.sabrigulseven.flight.config;
 
 
 import com.sabrigulseven.flight.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@RequiredArgsConstructor
 public class ApplicationConifg {
     private final UserRepository repository;
+
+    public ApplicationConifg(UserRepository repository) {
+        this.repository = repository;
+    }
+
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByUsername(username)

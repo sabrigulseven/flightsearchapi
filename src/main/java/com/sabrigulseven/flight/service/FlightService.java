@@ -12,7 +12,6 @@ import com.sabrigulseven.flight.repository.FlightRepository;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -22,16 +21,19 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class FlightService {
 
     private final FlightRepository repository;
     private final AirportService airportService;
     private final FlightDtoConverter converter;
 
+    public FlightService(FlightRepository repository, AirportService airportService, FlightDtoConverter converter) {
+        this.repository = repository;
+        this.airportService = airportService;
+        this.converter = converter;
+    }
 
     protected Flight findById(Long id) {
         return repository.findById(id)
@@ -42,13 +44,7 @@ public class FlightService {
     public FlightDto save(CreateFlightRequest request) {
         Airport origin = airportService.findById(request.getOriginAirportId());
         Airport destination = airportService.findById(request.getDestinationAirportId());
-        Flight flight = Flight.builder()
-                .origin(origin)
-                .destination(destination)
-                .departureDate(request.getDepartureDate())
-                .returnDate(request.getReturnDate())
-                .price(request.getPrice())
-                .build();
+        Flight flight = new Flight(origin, destination, request.getDepartureDate(), request.getReturnDate(), request.getPrice());
         return converter.convert(repository.save(flight));
     }
 
@@ -60,12 +56,14 @@ public class FlightService {
         Airport origin = airportService.findById(request.getOriginAirportId());
         Airport destination = airportService.findById(request.getDestinationAirportId());
         Flight flight = findById(id);
-        flight.setOrigin(origin);
-        flight.setDestination(destination);
-        flight.setDepartureDate(request.getDepartureDate());
-        flight.setReturnDate(request.getReturnDate());
-        flight.setPrice(request.getPrice());
-        return converter.convert(repository.save(flight));
+        Flight updatedFlight = new Flight(
+                flight.getId(),
+                origin,
+                destination,
+                request.getDepartureDate(),
+                request.getReturnDate(),
+                request.getPrice());
+        return converter.convert(repository.save(updatedFlight));
     }
 
     public String deleteById(Long id) {
@@ -78,7 +76,7 @@ public class FlightService {
         return repository.findAll()
                 .stream()
                 .map(converter::convert)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<FlightDto> searchFlights(SearchFlightRequest request) {
@@ -88,7 +86,7 @@ public class FlightService {
         return repository.findAll(spec, sort)
                 .stream()
                 .map(converter::convert)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private Specification<Flight> buildSearchSpecification(SearchFlightRequest request) {
@@ -139,10 +137,10 @@ public class FlightService {
         List<Flight> savedFlights = repository.saveAll(flightsDto
                 .stream()
                 .map(converter::revert)
-                .collect(Collectors.toList()));
+                .toList());
 
         return savedFlights.stream()
                 .map(converter::convert)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

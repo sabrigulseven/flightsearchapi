@@ -84,8 +84,7 @@ public class AirportServiceTest {
     @Test
     public void testUpdateAirport_whenAirportExists_ShouldReturnUpdatedAirport() {
         Long airportId = 1L;
-        UpdateAirportRequest request = new UpdateAirportRequest();
-        request.setCity("Los Angeles");
+        UpdateAirportRequest request = new UpdateAirportRequest("Los Angeles");
 
         Airport existingAirport = new Airport(airportId, "New York");
         Airport updatedAirport = new Airport(airportId, "Los Angeles");
@@ -103,8 +102,7 @@ public class AirportServiceTest {
     @Test
     public void testUpdateAirport_whenAirportDoesNotExist_ShouldThrowAirportNotFoundException() {
         Long airportId = 1L;
-        UpdateAirportRequest request = new UpdateAirportRequest();
-        request.setCity("Los Angeles");
+        UpdateAirportRequest request = new UpdateAirportRequest("Los Angeles");
 
         Mockito.when(airportRepository.findById(airportId)).thenReturn(Optional.empty());
 

@@ -1,23 +1,13 @@
 package com.sabrigulseven.flight.dto.request;
 
-import com.sabrigulseven.flight.model.Airport;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class CreateFlightRequest {
 
     @NotNull(message = "Origin Airport Id must not be null")
@@ -37,4 +27,31 @@ public class CreateFlightRequest {
     @NotNull
     private BigDecimal price;
 
+    public CreateFlightRequest(Long originAirportId, Long destinationAirportId, OffsetDateTime departureDate, OffsetDateTime returnDate, BigDecimal price) {
+        this.originAirportId = originAirportId;
+        this.destinationAirportId = destinationAirportId;
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
+        this.price = price;
+    }
+
+    public Long getOriginAirportId() {
+        return originAirportId;
+    }
+
+    public Long getDestinationAirportId() {
+        return destinationAirportId;
+    }
+
+    public OffsetDateTime getDepartureDate() {
+        return departureDate;
+    }
+
+    public OffsetDateTime getReturnDate() {
+        return returnDate;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
 }

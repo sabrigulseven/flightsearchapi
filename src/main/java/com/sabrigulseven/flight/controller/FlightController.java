@@ -7,7 +7,6 @@ import com.sabrigulseven.flight.dto.request.SearchFlightRequest;
 import com.sabrigulseven.flight.dto.request.UpdateFlightRequest;
 import com.sabrigulseven.flight.service.FlightService;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +16,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/flights")
-@RequiredArgsConstructor
 @RateLimiter(name = "basic")
 public class FlightController implements FlightApi {
 
     private final FlightService flightService;
+
+    public FlightController(FlightService flightService) {
+        this.flightService = flightService;
+    }
 
     @Override
     public ResponseEntity<FlightDto> createFlight(CreateFlightRequest createFlightRequest) {
@@ -56,12 +58,7 @@ public class FlightController implements FlightApi {
             LocalDate departureDate,
             LocalDate returnDate) {
 
-        SearchFlightRequest request = new SearchFlightRequest();
-        request.setOriginAirportId(originAirportId);
-        request.setDestinationAirportId(destinationAirportId);
-        request.setDepartureDate(departureDate);
-        request.setReturnDate(returnDate);
-
+        SearchFlightRequest request = new SearchFlightRequest(originAirportId, destinationAirportId, departureDate, returnDate);
         return ResponseEntity.ok(flightService.searchFlights(request));
     }
 }
