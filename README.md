@@ -30,7 +30,7 @@ You can define <b>API_URL </b> in the `application.yml` file
 
 ---
 - Java 17
-- Spring Boot 3.0
+- Spring Boot 3.1
 - Open API Documentation
 - Spring Data JPA
 - H2 In Memory Database
