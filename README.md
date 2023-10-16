@@ -34,7 +34,6 @@ You can define <b>API_URL </b> in the `application.yml` file
 - Open API Documentation
 - Spring Data JPA
 - H2 In Memory Database
-- Lombok
 - Restful API
 - Maven
 - Junit5
@@ -46,7 +45,6 @@ You can define <b>API_URL </b> in the `application.yml` file
 
 ---
 - Maven or Docker
-- Lombok
 ---
 
 ## Docker Run
