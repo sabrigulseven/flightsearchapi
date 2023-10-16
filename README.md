@@ -38,6 +38,7 @@ You can define <b>API_URL </b> in the `application.yml` file
 - Maven
 - Junit5
 - Mockito
+- Resilience4j
 - Docker
 - Docker Compose
 
